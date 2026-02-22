@@ -1,0 +1,941 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "neighborhood": "Linden Hills",
+        "community": "Southwest",
+        "housing_stock": "1920s\u20131940s Craftsman bungalows & Tudor revivals",
+        "property_count": 3200
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -93.3382,
+              44.9122
+            ],
+            [
+              -93.3337,
+              44.9212
+            ],
+            [
+              -93.3262,
+              44.9222
+            ],
+            [
+              -93.3172,
+              44.9202
+            ],
+            [
+              -93.3082,
+              44.9142
+            ],
+            [
+              -93.3097,
+              44.9032
+            ],
+            [
+              -93.3202,
+              44.9022
+            ],
+            [
+              -93.3322,
+              44.904199999999996
+            ],
+            [
+              -93.3382,
+              44.9122
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "neighborhood": "Fulton",
+        "community": "Southwest",
+        "housing_stock": "1940s\u20131960s ramblers & split-levels",
+        "property_count": 4100
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -93.32400000000001,
+              44.9205
+            ],
+            [
+              -93.31920000000001,
+              44.9304
+            ],
+            [
+              -93.31120000000001,
+              44.9315
+            ],
+            [
+              -93.30160000000001,
+              44.9293
+            ],
+            [
+              -93.292,
+              44.9227
+            ],
+            [
+              -93.29360000000001,
+              44.910599999999995
+            ],
+            [
+              -93.3048,
+              44.909499999999994
+            ],
+            [
+              -93.31760000000001,
+              44.911699999999996
+            ],
+            [
+              -93.32400000000001,
+              44.9205
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "neighborhood": "Armatage",
+        "community": "Southwest",
+        "housing_stock": "Mainly 1940s ramblers & post-war colonials",
+        "property_count": 3600
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -93.3325,
+              44.9025
+            ],
+            [
+              -93.3283,
+              44.911950000000004
+            ],
+            [
+              -93.3213,
+              44.913000000000004
+            ],
+            [
+              -93.3129,
+              44.910900000000005
+            ],
+            [
+              -93.3045,
+              44.9046
+            ],
+            [
+              -93.3059,
+              44.89305
+            ],
+            [
+              -93.3157,
+              44.892
+            ],
+            [
+              -93.3269,
+              44.8941
+            ],
+            [
+              -93.3325,
+              44.9025
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "neighborhood": "Kenny",
+        "community": "Southwest",
+        "housing_stock": "1950s ramblers & Cape Cods",
+        "property_count": 2800
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -93.351,
+              44.9115
+            ],
+            [
+              -93.34695,
+              44.920049999999996
+            ],
+            [
+              -93.34020000000001,
+              44.921
+            ],
+            [
+              -93.33210000000001,
+              44.91909999999999
+            ],
+            [
+              -93.32400000000001,
+              44.913399999999996
+            ],
+            [
+              -93.32535,
+              44.90295
+            ],
+            [
+              -93.3348,
+              44.901999999999994
+            ],
+            [
+              -93.3456,
+              44.9039
+            ],
+            [
+              -93.351,
+              44.9115
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "neighborhood": "Lynnhurst",
+        "community": "Southwest",
+        "housing_stock": "1930s\u20131950s Tudor & Colonial Revivals",
+        "property_count": 3900
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -93.3205,
+              44.908
+            ],
+            [
+              -93.31599999999999,
+              44.917
+            ],
+            [
+              -93.3085,
+              44.918
+            ],
+            [
+              -93.2995,
+              44.916000000000004
+            ],
+            [
+              -93.2905,
+              44.910000000000004
+            ],
+            [
+              -93.292,
+              44.899
+            ],
+            [
+              -93.3025,
+              44.898
+            ],
+            [
+              -93.3145,
+              44.9
+            ],
+            [
+              -93.3205,
+              44.908
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "neighborhood": "Windom",
+        "community": "Southwest",
+        "housing_stock": "1950s\u20131960s ramblers & split-levels",
+        "property_count": 3300
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -93.322,
+              44.8975
+            ],
+            [
+              -93.3175,
+              44.90695
+            ],
+            [
+              -93.31,
+              44.908
+            ],
+            [
+              -93.301,
+              44.9059
+            ],
+            [
+              -93.292,
+              44.8996
+            ],
+            [
+              -93.29350000000001,
+              44.88805
+            ],
+            [
+              -93.304,
+              44.887
+            ],
+            [
+              -93.316,
+              44.8891
+            ],
+            [
+              -93.322,
+              44.8975
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "neighborhood": "Tangletown",
+        "community": "Southwest",
+        "housing_stock": "1920s\u20131940s Arts & Crafts & Colonial Revivals",
+        "property_count": 2600
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -93.3135,
+              44.916
+            ],
+            [
+              -93.30975000000001,
+              44.924099999999996
+            ],
+            [
+              -93.3035,
+              44.925
+            ],
+            [
+              -93.296,
+              44.923199999999994
+            ],
+            [
+              -93.2885,
+              44.9178
+            ],
+            [
+              -93.28975,
+              44.9079
+            ],
+            [
+              -93.2985,
+              44.907
+            ],
+            [
+              -93.3085,
+              44.9088
+            ],
+            [
+              -93.3135,
+              44.916
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "neighborhood": "Kingfield",
+        "community": "Southwest",
+        "housing_stock": "1910s\u20131930s Craftsman bungalows",
+        "property_count": 4200
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -93.31099999999999,
+              44.9218
+            ],
+            [
+              -93.3068,
+              44.9317
+            ],
+            [
+              -93.29979999999999,
+              44.9328
+            ],
+            [
+              -93.2914,
+              44.9306
+            ],
+            [
+              -93.283,
+              44.924
+            ],
+            [
+              -93.28439999999999,
+              44.911899999999996
+            ],
+            [
+              -93.2942,
+              44.910799999999995
+            ],
+            [
+              -93.30539999999999,
+              44.913
+            ],
+            [
+              -93.31099999999999,
+              44.9218
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "neighborhood": "Nokomis",
+        "community": "Nokomis",
+        "housing_stock": "1940s\u20131950s ramblers & bungalows",
+        "property_count": 5100
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -93.3065,
+              44.896
+            ],
+            [
+              -93.30125,
+              44.9086
+            ],
+            [
+              -93.2925,
+              44.910000000000004
+            ],
+            [
+              -93.282,
+              44.9072
+            ],
+            [
+              -93.2715,
+              44.8988
+            ],
+            [
+              -93.27325,
+              44.8834
+            ],
+            [
+              -93.2855,
+              44.882
+            ],
+            [
+              -93.2995,
+              44.8848
+            ],
+            [
+              -93.3065,
+              44.896
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "neighborhood": "Northeast Minneapolis",
+        "community": "Northeast",
+        "housing_stock": "1900s\u20131930s worker cottages & Victorian foursquares",
+        "property_count": 6800
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -93.276,
+              44.995
+            ],
+            [
+              -93.2697,
+              45.0121
+            ],
+            [
+              -93.25919999999999,
+              45.013999999999996
+            ],
+            [
+              -93.2466,
+              45.0102
+            ],
+            [
+              -93.234,
+              44.998799999999996
+            ],
+            [
+              -93.2361,
+              44.9779
+            ],
+            [
+              -93.2508,
+              44.976
+            ],
+            [
+              -93.2676,
+              44.9798
+            ],
+            [
+              -93.276,
+              44.995
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "neighborhood": "Longfellow",
+        "community": "Longfellow",
+        "housing_stock": "1910s\u20131930s Craftsman bungalows",
+        "property_count": 5500
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -93.25,
+              44.9258
+            ],
+            [
+              -93.2452,
+              44.93705
+            ],
+            [
+              -93.2372,
+              44.938300000000005
+            ],
+            [
+              -93.2276,
+              44.9358
+            ],
+            [
+              -93.21799999999999,
+              44.9283
+            ],
+            [
+              -93.2196,
+              44.914550000000006
+            ],
+            [
+              -93.23079999999999,
+              44.9133
+            ],
+            [
+              -93.2436,
+              44.915800000000004
+            ],
+            [
+              -93.25,
+              44.9258
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "neighborhood": "Near North",
+        "community": "North",
+        "housing_stock": "1920s\u20131940s worker cottages & bungalows",
+        "property_count": 4800
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -93.32000000000001,
+              44.996
+            ],
+            [
+              -93.3143,
+              45.0095
+            ],
+            [
+              -93.3048,
+              45.011
+            ],
+            [
+              -93.2934,
+              45.008
+            ],
+            [
+              -93.282,
+              44.999
+            ],
+            [
+              -93.2839,
+              44.9825
+            ],
+            [
+              -93.2972,
+              44.981
+            ],
+            [
+              -93.3124,
+              44.984
+            ],
+            [
+              -93.32000000000001,
+              44.996
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "neighborhood": "Camden",
+        "community": "North",
+        "housing_stock": "1920s\u20131950s ramblers & bungalows",
+        "property_count": 4200
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -93.33749999999999,
+              44.998
+            ],
+            [
+              -93.33224999999999,
+              45.0106
+            ],
+            [
+              -93.3235,
+              45.012
+            ],
+            [
+              -93.31299999999999,
+              45.0092
+            ],
+            [
+              -93.3025,
+              45.0008
+            ],
+            [
+              -93.30425,
+              44.9854
+            ],
+            [
+              -93.31649999999999,
+              44.983999999999995
+            ],
+            [
+              -93.33049999999999,
+              44.986799999999995
+            ],
+            [
+              -93.33749999999999,
+              44.998
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "neighborhood": "CARAG",
+        "community": "Calhoun-Isles",
+        "housing_stock": "1920s\u20131940s apartment buildings & single-family homes",
+        "property_count": 2900
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -93.3255,
+              44.949
+            ],
+            [
+              -93.32175000000001,
+              44.9571
+            ],
+            [
+              -93.3155,
+              44.958
+            ],
+            [
+              -93.308,
+              44.956199999999995
+            ],
+            [
+              -93.3005,
+              44.9508
+            ],
+            [
+              -93.30175,
+              44.9409
+            ],
+            [
+              -93.3105,
+              44.94
+            ],
+            [
+              -93.3205,
+              44.9418
+            ],
+            [
+              -93.3255,
+              44.949
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "neighborhood": "East Calhoun (Bde Maka Ska)",
+        "community": "Calhoun-Isles",
+        "housing_stock": "1920s\u20131940s luxury lakeside homes & condos",
+        "property_count": 2100
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -93.3225,
+              44.9448
+            ],
+            [
+              -93.3189,
+              44.95245
+            ],
+            [
+              -93.3129,
+              44.9533
+            ],
+            [
+              -93.3057,
+              44.9516
+            ],
+            [
+              -93.2985,
+              44.9465
+            ],
+            [
+              -93.2997,
+              44.93715
+            ],
+            [
+              -93.30810000000001,
+              44.9363
+            ],
+            [
+              -93.3177,
+              44.938
+            ],
+            [
+              -93.3225,
+              44.9448
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "neighborhood": "Powderhorn Park",
+        "community": "Powderhorn",
+        "housing_stock": "1910s\u20131930s Craftsman bungalows & foursquares",
+        "property_count": 5600
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -93.2815,
+              44.932
+            ],
+            [
+              -93.27699999999999,
+              44.942800000000005
+            ],
+            [
+              -93.2695,
+              44.944
+            ],
+            [
+              -93.2605,
+              44.9416
+            ],
+            [
+              -93.2515,
+              44.934400000000004
+            ],
+            [
+              -93.253,
+              44.9212
+            ],
+            [
+              -93.2635,
+              44.92
+            ],
+            [
+              -93.2755,
+              44.9224
+            ],
+            [
+              -93.2815,
+              44.932
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "neighborhood": "Dinkytown",
+        "community": "University",
+        "housing_stock": "Mixed: apartments, condos & older homes",
+        "property_count": 1800
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -93.25200000000001,
+              44.982
+            ],
+            [
+              -93.24900000000001,
+              44.988749999999996
+            ],
+            [
+              -93.244,
+              44.9895
+            ],
+            [
+              -93.238,
+              44.988
+            ],
+            [
+              -93.232,
+              44.9835
+            ],
+            [
+              -93.233,
+              44.97525
+            ],
+            [
+              -93.24000000000001,
+              44.9745
+            ],
+            [
+              -93.248,
+              44.976
+            ],
+            [
+              -93.25200000000001,
+              44.982
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "neighborhood": "Downtown West",
+        "community": "Downtown",
+        "housing_stock": "Modern condos & converted lofts",
+        "property_count": 3400
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -93.28750000000001,
+              44.9789
+            ],
+            [
+              -93.28375000000001,
+              44.987
+            ],
+            [
+              -93.2775,
+              44.9879
+            ],
+            [
+              -93.27000000000001,
+              44.9861
+            ],
+            [
+              -93.2625,
+              44.980700000000006
+            ],
+            [
+              -93.26375,
+              44.970800000000004
+            ],
+            [
+              -93.27250000000001,
+              44.9699
+            ],
+            [
+              -93.2825,
+              44.971700000000006
+            ],
+            [
+              -93.28750000000001,
+              44.9789
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}
