@@ -132,6 +132,21 @@
             flex-shrink: 0;
         }
 
+        .edit-icon {
+            opacity: 0;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: opacity 0.15s;
+        }
+
+        .category-btn:hover .edit-icon {
+            opacity: 0.5;
+        }
+
+        .edit-icon:hover {
+            opacity: 1 !important;
+        }
+
         .category-count {
             margin-left: auto;
             font-weight: 700;
@@ -404,7 +419,7 @@
     <div class="main-container">
         <div class="sidebar">
             <div class="sidebar-section">
-                <h3>Paint Mode <span style="font-weight:400;text-transform:none;letter-spacing:0;color:#555;font-size:0.65rem">(double-click labels to rename)</span></h3>
+                <h3>Paint Mode <span style="font-weight:400;text-transform:none;letter-spacing:0;color:#555;font-size:0.65rem">(click &#9998; to rename)</span></h3>
                 <div id="category-buttons"></div>
             </div>
             <div class="sidebar-section">
@@ -712,7 +727,8 @@
             btn.style.color = cat.color;
             btn.innerHTML = `
                 <span class="category-dot" style="background:${cat.color}"></span>
-                <span class="category-label" title="Double-click to rename">${cat.label}</span>
+                <span class="category-label">${cat.label}</span>
+                <span class="edit-icon" title="Rename this category">&#9998;</span>
                 <span class="category-count">${count}</span>
             `;
             btn.onclick = () => {
@@ -720,10 +736,10 @@
                 renderCategoryButtons();
             };
 
-            // Double-click to edit label
-            const labelSpan = btn.querySelector('.category-label');
-            labelSpan.addEventListener('dblclick', (e) => {
+            // Edit icon click opens inline rename
+            btn.querySelector('.edit-icon').addEventListener('click', (e) => {
                 e.stopPropagation();
+                const labelSpan = btn.querySelector('.category-label');
                 const input = document.createElement('input');
                 input.type = 'text';
                 input.value = cat.label;
@@ -732,6 +748,20 @@
 
                 const finish = () => {
                     updateCategoryLabel(key, input.value);
+                };
+                input.addEventListener('blur', finish);
+                input.addEventListener('keydown', (ev) => {
+                    if (ev.key === 'Enter') input.blur();
+                    if (ev.key === 'Escape') { input.value = cat.label; input.blur(); }
+                });
+
+                labelSpan.replaceWith(input);
+                input.focus();
+                input.select();
+            });
+
+            container.appendChild(btn);
+        });
                 };
                 input.addEventListener('blur', finish);
                 input.addEventListener('keydown', (ev) => {
