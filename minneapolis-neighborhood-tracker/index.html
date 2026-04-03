@@ -11,20 +11,20 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #1a1a2e;
-            color: #e0e0e0;
+            background: #fff;
+            color: #222;
             height: 100vh;
             display: flex;
             flex-direction: column;
         }
 
         header {
-            background: #16213e;
+            background: #fff;
             padding: 12px 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 2px solid #0f3460;
+            border-bottom: 1px solid #ddd;
             flex-shrink: 0;
             flex-wrap: wrap;
             gap: 8px;
@@ -32,12 +32,12 @@
 
         header h1 {
             font-size: 1.3rem;
-            color: #e94560;
+            color: #222;
             white-space: nowrap;
         }
 
         header h1 span {
-            color: #e0e0e0;
+            color: #666;
             font-weight: 300;
         }
 
@@ -61,14 +61,14 @@
         .stat-value {
             font-size: 1.4rem;
             font-weight: 700;
-            color: #e94560;
+            color: #222;
         }
 
         .stat-label {
             font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            color: #888;
+            color: #999;
         }
 
         .main-container {
@@ -79,8 +79,8 @@
 
         .sidebar {
             width: 280px;
-            background: #16213e;
-            border-right: 2px solid #0f3460;
+            background: #fafafa;
+            border-right: 1px solid #ddd;
             display: flex;
             flex-direction: column;
             flex-shrink: 0;
@@ -89,14 +89,14 @@
 
         .sidebar-section {
             padding: 12px 16px;
-            border-bottom: 1px solid #0f3460;
+            border-bottom: 1px solid #eee;
         }
 
         .sidebar-section h3 {
             font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            color: #888;
+            color: #999;
             margin-bottom: 8px;
         }
 
@@ -109,20 +109,20 @@
             margin-bottom: 4px;
             border: 2px solid transparent;
             border-radius: 6px;
-            background: #1a1a2e;
-            color: #e0e0e0;
+            background: #fff;
+            color: #333;
             cursor: pointer;
             font-size: 0.85rem;
             transition: all 0.15s;
         }
 
         .category-btn:hover {
-            background: #0f3460;
+            background: #f0f0f0;
         }
 
         .category-btn.active {
             border-color: currentColor;
-            background: #0f3460;
+            background: #f5f5f5;
         }
 
         .category-dot {
@@ -140,7 +140,7 @@
         }
 
         .category-btn:hover .edit-icon {
-            opacity: 0.5;
+            opacity: 0.4;
         }
 
         .edit-icon:hover {
@@ -183,11 +183,11 @@
         }
 
         .neighborhood-list::-webkit-scrollbar-track {
-            background: #1a1a2e;
+            background: #fafafa;
         }
 
         .neighborhood-list::-webkit-scrollbar-thumb {
-            background: #0f3460;
+            background: #ccc;
             border-radius: 3px;
         }
 
@@ -203,7 +203,7 @@
         }
 
         .hood-item:hover {
-            background: #0f3460;
+            background: #eee;
         }
 
         .hood-dot {
@@ -211,13 +211,13 @@
             height: 8px;
             border-radius: 50%;
             flex-shrink: 0;
-            border: 1px solid #555;
+            border: 1px solid #bbb;
         }
 
         .hood-community {
             margin-left: auto;
             font-size: 0.65rem;
-            color: #666;
+            color: #aaa;
             text-align: right;
         }
 
@@ -234,10 +234,10 @@
 
         .btn {
             padding: 6px 12px;
-            border: 1px solid #0f3460;
+            border: 1px solid #ccc;
             border-radius: 4px;
-            background: #1a1a2e;
-            color: #e0e0e0;
+            background: #fff;
+            color: #333;
             cursor: pointer;
             font-size: 0.75rem;
             transition: all 0.15s;
@@ -245,8 +245,8 @@
         }
 
         .btn:hover {
-            background: #0f3460;
-            border-color: #e94560;
+            background: #f0f0f0;
+            border-color: #999;
         }
 
         .btn-danger {
@@ -265,11 +265,12 @@
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%) translateY(100px);
-            background: #16213e;
-            color: #e0e0e0;
+            background: #fff;
+            color: #222;
             padding: 12px 24px;
             border-radius: 8px;
-            border: 1px solid #e94560;
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
             font-size: 0.85rem;
             z-index: 10000;
             transition: transform 0.3s ease;
@@ -287,22 +288,22 @@
             box-shadow: none !important;
             font-size: 11px;
             font-weight: 700;
-            color: #fff;
-            text-shadow: 0 0 4px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.7);
+            color: #333;
+            text-shadow: 0 0 3px #fff, 0 0 6px #fff, 0 0 9px #fff;
             white-space: nowrap;
             pointer-events: none !important;
         }
 
         /* Leaflet popup override */
         .leaflet-popup-content-wrapper {
-            background: #16213e;
-            color: #e0e0e0;
+            background: #fff;
+            color: #222;
             border-radius: 8px;
-            border: 1px solid #0f3460;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
         }
 
         .leaflet-popup-tip {
-            background: #16213e;
+            background: #fff;
         }
 
         .leaflet-popup-content {
@@ -318,7 +319,7 @@
 
         .popup-community {
             font-size: 0.8rem;
-            color: #888;
+            color: #999;
             margin-bottom: 8px;
         }
 
@@ -331,16 +332,16 @@
         .popup-btn {
             padding: 4px 10px;
             border-radius: 4px;
-            border: 1px solid #333;
-            background: #1a1a2e;
-            color: #e0e0e0;
+            border: 1px solid #ccc;
+            background: #fff;
+            color: #333;
             cursor: pointer;
             font-size: 0.75rem;
             transition: all 0.15s;
         }
 
         .popup-btn:hover {
-            border-color: #e94560;
+            border-color: #666;
         }
 
         .popup-btn.active {
@@ -352,20 +353,20 @@
         .search-input {
             width: 100%;
             padding: 8px 10px;
-            border: 1px solid #0f3460;
+            border: 1px solid #ddd;
             border-radius: 4px;
-            background: #1a1a2e;
-            color: #e0e0e0;
+            background: #fff;
+            color: #222;
             font-size: 0.85rem;
             outline: none;
         }
 
         .search-input:focus {
-            border-color: #e94560;
+            border-color: #999;
         }
 
         .search-input::placeholder {
-            color: #555;
+            color: #bbb;
         }
 
         /* Responsive */
@@ -534,7 +535,7 @@
             attributionControl: true,
         });
 
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
             subdomains: 'abcd',
             maxZoom: 19,
@@ -562,7 +563,7 @@
                 onEachFeature: (feature, lyr) => {
                     lyr.on('click', () => onNeighborhoodClick(name));
                     lyr.on('mouseover', (e) => {
-                        e.target.setStyle({ weight: 3, color: '#fff' });
+                        e.target.setStyle({ weight: 2.5, color: '#000', opacity: 0.8 });
                         e.target.bringToFront();
                     });
                     lyr.on('mouseout', (e) => {
@@ -593,11 +594,11 @@
             features.forEach(f => {
                 const layer = L.geoJSON(f, {
                     style: {
-                        color: COMMUNITY_COLORS[comm] || '#888',
-                        weight: 3,
+                        color: '#000',
+                        weight: 2,
                         fillOpacity: 0,
-                        opacity: 0.6,
-                        dashArray: '8,4',
+                        opacity: 0.4,
+                        dashArray: '6,3',
                         interactive: false,
                     },
                     pane: 'overlayPane',
@@ -659,18 +660,18 @@
         if (cat && CATEGORIES[cat]) {
             return {
                 fillColor: CATEGORIES[cat].color,
-                fillOpacity: 0.5,
-                color: CATEGORIES[cat].color,
-                weight: 1.5,
-                opacity: 0.8,
+                fillOpacity: 0.6,
+                color: '#000',
+                weight: 1,
+                opacity: 0.3,
             };
         }
         return {
-            fillColor: '#2a2a4a',
-            fillOpacity: 0.3,
-            color: '#444',
+            fillColor: '#fff',
+            fillOpacity: 0.1,
+            color: '#000',
             weight: 1,
-            opacity: 0.5,
+            opacity: 0.3,
         };
     }
 
@@ -744,7 +745,7 @@
                 input.type = 'text';
                 input.value = cat.label;
                 input.className = 'label-edit-input';
-                input.style.cssText = 'background:#1a1a2e;color:#e0e0e0;border:1px solid ' + cat.color + ';border-radius:3px;padding:2px 4px;font-size:0.85rem;width:100px;outline:none;';
+                input.style.cssText = 'background:#fff;color:#222;border:1px solid ' + cat.color + ';border-radius:3px;padding:2px 4px;font-size:0.85rem;width:100px;outline:none;';
 
                 const finish = () => {
                     updateCategoryLabel(key, input.value);
