@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minneapolis Neighborhood Tracker</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #1a1a2e;
+            color: #e0e0e0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: #16213e;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid #0f3460;
+            flex-shrink: 0;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        header h1 {
+            font-size: 1.3rem;
+            color: #e94560;
+            white-space: nowrap;
+        }
+
+        header h1 span {
+            color: #e0e0e0;
+            font-weight: 300;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .stats {
+            display: flex;
+            gap: 16px;
+            font-size: 0.85rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #e94560;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #888;
+        }
+
+        .main-container {
+            display: flex;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: #16213e;
+            border-right: 2px solid #0f3460;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .sidebar-section {
+            padding: 12px 16px;
+            border-bottom: 1px solid #0f3460;
+        }
+
+        .sidebar-section h3 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #888;
+            margin-bottom: 8px;
+        }
+
+        .category-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            padding: 8px 12px;
+            margin-bottom: 4px;
+            border: 2px solid transparent;
+            border-radius: 6px;
+            background: #1a1a2e;
+            color: #e0e0e0;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.15s;
+        }
+
+        .category-btn:hover {
+            background: #0f3460;
+        }
+
+        .category-btn.active {
+            border-color: currentColor;
+            background: #0f3460;
+        }
+
+        .category-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .category-count {
+            margin-left: auto;
+            font-weight: 700;
+            font-size: 0.8rem;
+        }
+
+        .toggle-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .toggle-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            padding: 4px 0;
+        }
+
+        .toggle-row input[type="checkbox"] {
+            accent-color: #e94560;
+        }
+
+        .neighborhood-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px;
+        }
+
+        .neighborhood-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .neighborhood-list::-webkit-scrollbar-track {
+            background: #1a1a2e;
+        }
+
+        .neighborhood-list::-webkit-scrollbar-thumb {
+            background: #0f3460;
+            border-radius: 3px;
+        }
+
+        .hood-item {
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.1s;
+        }
+
+        .hood-item:hover {
+            background: #0f3460;
+        }
+
+        .hood-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            border: 1px solid #555;
+        }
+
+        .hood-community {
+            margin-left: auto;
+            font-size: 0.65rem;
+            color: #666;
+            text-align: right;
+        }
+
+        #map {
+            flex: 1;
+            min-height: 0;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 6px 12px;
+            border: 1px solid #0f3460;
+            border-radius: 4px;
+            background: #1a1a2e;
+            color: #e0e0e0;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: all 0.15s;
+            white-space: nowrap;
+        }
+
+        .btn:hover {
+            background: #0f3460;
+            border-color: #e94560;
+        }
+
+        .btn-danger {
+            border-color: #e94560;
+            color: #e94560;
+        }
+
+        .btn-danger:hover {
+            background: #e94560;
+            color: white;
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #16213e;
+            color: #e0e0e0;
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: 1px solid #e94560;
+            font-size: 0.85rem;
+            z-index: 10000;
+            transition: transform 0.3s ease;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Community label styling */
+        .community-label {
+            background: none !important;
+            border: none !important;
+            box-shadow: none !important;
+            font-size: 11px;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 0 0 4px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.7);
+            white-space: nowrap;
+            pointer-events: none !important;
+        }
+
+        /* Leaflet popup override */
+        .leaflet-popup-content-wrapper {
+            background: #16213e;
+            color: #e0e0e0;
+            border-radius: 8px;
+            border: 1px solid #0f3460;
+        }
+
+        .leaflet-popup-tip {
+            background: #16213e;
+        }
+
+        .leaflet-popup-content {
+            margin: 12px 16px;
+            font-family: inherit;
+        }
+
+        .popup-name {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .popup-community {
+            font-size: 0.8rem;
+            color: #888;
+            margin-bottom: 8px;
+        }
+
+        .popup-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .popup-btn {
+            padding: 4px 10px;
+            border-radius: 4px;
+            border: 1px solid #333;
+            background: #1a1a2e;
+            color: #e0e0e0;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: all 0.15s;
+        }
+
+        .popup-btn:hover {
+            border-color: #e94560;
+        }
+
+        .popup-btn.active {
+            border-color: currentColor;
+            font-weight: 700;
+        }
+
+        /* Search */
+        .search-input {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #0f3460;
+            border-radius: 4px;
+            background: #1a1a2e;
+            color: #e0e0e0;
+            font-size: 0.85rem;
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: #e94560;
+        }
+
+        .search-input::placeholder {
+            color: #555;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                max-height: 200px;
+                border-right: none;
+                border-bottom: 2px solid #0f3460;
+            }
+            .neighborhood-list {
+                display: none;
+            }
+            header {
+                padding: 8px 12px;
+            }
+            header h1 {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>MPLS <span>Neighborhood Tracker</span></h1>
+        <div class="header-controls">
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value" id="stat-visited">0</div>
+                    <div class="stat-label">Marked</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="stat-pct">0%</div>
+                    <div class="stat-label">Complete</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="stat-total">85</div>
+                    <div class="stat-label">Total</div>
+                </div>
+            </div>
+            <div class="action-buttons">
+                <button class="btn" onclick="shareMap()" title="Copy shareable link">Share</button>
+                <button class="btn btn-danger" onclick="clearAll()" title="Clear all selections">Reset</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <h3>Paint Mode</h3>
+                <div id="category-buttons"></div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Display</h3>
+                <div class="toggle-group">
+                    <label class="toggle-row">
+                        <input type="checkbox" id="toggle-communities" checked>
+                        Community boundaries
+                    </label>
+                    <label class="toggle-row">
+                        <input type="checkbox" id="toggle-labels" checked>
+                        Neighborhood labels
+                    </label>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <input type="text" class="search-input" id="search" placeholder="Search neighborhoods...">
+            </div>
+            <div class="neighborhood-list" id="neighborhood-list"></div>
+        </div>
+        <div id="map"></div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+    // ── Configuration ──
+    const CATEGORIES = {
+        visited:    { label: 'Visited',      color: '#e94560', order: 1 },
+        lived:      { label: 'Lived In',     color: '#4ecdc4', order: 2 },
+        worked:     { label: 'Worked In',    color: '#f9a825', order: 3 },
+        wantToVisit:{ label: 'Want to Visit',color: '#7c4dff', order: 4 },
+    };
+
+    const COMMUNITY_COLORS = {
+        'Calhoun-Isles': '#e94560',
+        'Camden': '#f9a825',
+        'Central': '#4ecdc4',
+        'Longfellow': '#7c4dff',
+        'Near North': '#ff6b35',
+        'Nokomis': '#26c6da',
+        'Northeast': '#66bb6a',
+        'Phillips': '#ef5350',
+        'Powderhorn': '#ab47bc',
+        'Southwest': '#5c6bc0',
+        'University': '#8d6e63',
+    };
+
+    // ── State ──
+    let neighborhoods = {};  // name -> category (null = unvisited)
+    let activeCategory = 'visited';
+    let geoData = null;
+    let neighborhoodLayers = {};  // name -> layer
+    let communityLayers = [];
+    let labelLayers = [];
+    let map;
+
+    // ── Initialize ──
+    document.addEventListener('DOMContentLoaded', async () => {
+        initMap();
+        await loadGeoJSON();
+        loadState();
+        renderCategoryButtons();
+        renderNeighborhoodList();
+        updateStats();
+        setupToggles();
+        setupSearch();
+    });
+
+    function initMap() {
+        map = L.map('map', {
+            center: [44.9778, -93.265],
+            zoom: 13,
+            zoomControl: true,
+            attributionControl: true,
+        });
+
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
+            subdomains: 'abcd',
+            maxZoom: 19,
+        }).addTo(map);
+    }
+
+    async function loadGeoJSON() {
+        const resp = await fetch('data/neighborhoods.geojson');
+        geoData = await resp.json();
+
+        // Initialize neighborhoods state
+        geoData.features.forEach(f => {
+            const name = f.properties.name;
+            if (!(name in neighborhoods)) {
+                neighborhoods[name] = null;
+            }
+        });
+
+        // Add neighborhood polygons
+        geoData.features.forEach(f => {
+            const name = f.properties.name;
+            const community = f.properties.community;
+
+            const layer = L.geoJSON(f, {
+                style: () => getNeighborhoodStyle(name),
+                onEachFeature: (feature, lyr) => {
+                    lyr.on('click', () => onNeighborhoodClick(name));
+                    lyr.on('mouseover', (e) => {
+                        e.target.setStyle({ weight: 3, color: '#fff' });
+                        e.target.bringToFront();
+                    });
+                    lyr.on('mouseout', (e) => {
+                        e.target.setStyle(getNeighborhoodStyle(name));
+                    });
+                },
+            }).addTo(map);
+
+            neighborhoodLayers[name] = layer;
+        });
+
+        // Build community boundaries by collecting all features per community
+        buildCommunityOverlay();
+        buildLabels();
+    }
+
+    function buildCommunityOverlay() {
+        // Group features by community
+        const communityFeatures = {};
+        geoData.features.forEach(f => {
+            const comm = f.properties.community;
+            if (!communityFeatures[comm]) communityFeatures[comm] = [];
+            communityFeatures[comm].push(f);
+        });
+
+        Object.entries(communityFeatures).forEach(([comm, features]) => {
+            // Create a thicker outline for each neighborhood in the community
+            features.forEach(f => {
+                const layer = L.geoJSON(f, {
+                    style: {
+                        color: COMMUNITY_COLORS[comm] || '#888',
+                        weight: 3,
+                        fillOpacity: 0,
+                        opacity: 0.6,
+                        dashArray: '8,4',
+                        interactive: false,
+                    },
+                    pane: 'overlayPane',
+                }).addTo(map);
+                communityLayers.push(layer);
+            });
+        });
+
+        // Add community labels at centroid
+        const communityBounds = {};
+        geoData.features.forEach(f => {
+            const comm = f.properties.community;
+            if (!communityBounds[comm]) communityBounds[comm] = [];
+            // Get centroid of each feature
+            const layer = L.geoJSON(f);
+            const center = layer.getBounds().getCenter();
+            communityBounds[comm].push(center);
+        });
+
+        Object.entries(communityBounds).forEach(([comm, centers]) => {
+            const avgLat = centers.reduce((s, c) => s + c.lat, 0) / centers.length;
+            const avgLng = centers.reduce((s, c) => s + c.lng, 0) / centers.length;
+
+            const label = L.marker([avgLat, avgLng], {
+                icon: L.divIcon({
+                    className: 'community-label',
+                    html: comm,
+                    iconSize: null,
+                }),
+                interactive: false,
+                pane: 'tooltipPane',
+            }).addTo(map);
+            communityLayers.push(label);
+        });
+    }
+
+    function buildLabels() {
+        geoData.features.forEach(f => {
+            const name = f.properties.name;
+            const layer = L.geoJSON(f);
+            const center = layer.getBounds().getCenter();
+
+            const label = L.marker(center, {
+                icon: L.divIcon({
+                    className: 'community-label',
+                    html: `<span style="font-size:9px;font-weight:400;opacity:0.7">${name}</span>`,
+                    iconSize: null,
+                }),
+                interactive: false,
+                pane: 'tooltipPane',
+            }).addTo(map);
+            labelLayers.push(label);
+        });
+    }
+
+    // ── Styles ──
+    function getNeighborhoodStyle(name) {
+        const cat = neighborhoods[name];
+        if (cat && CATEGORIES[cat]) {
+            return {
+                fillColor: CATEGORIES[cat].color,
+                fillOpacity: 0.5,
+                color: CATEGORIES[cat].color,
+                weight: 1.5,
+                opacity: 0.8,
+            };
+        }
+        return {
+            fillColor: '#2a2a4a',
+            fillOpacity: 0.3,
+            color: '#444',
+            weight: 1,
+            opacity: 0.5,
+        };
+    }
+
+    function refreshNeighborhoodStyle(name) {
+        if (neighborhoodLayers[name]) {
+            neighborhoodLayers[name].eachLayer(lyr => {
+                lyr.setStyle(getNeighborhoodStyle(name));
+            });
+        }
+    }
+
+    // ── Interactions ──
+    function onNeighborhoodClick(name) {
+        const current = neighborhoods[name];
+        if (activeCategory === null) {
+            // Eraser mode
+            neighborhoods[name] = null;
+        } else if (current === activeCategory) {
+            // Toggle off if clicking same category
+            neighborhoods[name] = null;
+        } else {
+            neighborhoods[name] = activeCategory;
+        }
+        refreshNeighborhoodStyle(name);
+        updateStats();
+        renderNeighborhoodList();
+        saveState();
+    }
+
+    // ── Category Buttons ──
+    function renderCategoryButtons() {
+        const container = document.getElementById('category-buttons');
+        container.innerHTML = '';
+
+        // Add eraser first
+        const eraserBtn = document.createElement('button');
+        eraserBtn.className = `category-btn ${activeCategory === null ? 'active' : ''}`;
+        eraserBtn.style.color = '#888';
+        eraserBtn.innerHTML = `
+            <span class="category-dot" style="background:#555; border: 1px solid #888"></span>
+            Eraser
+        `;
+        eraserBtn.onclick = () => {
+            activeCategory = null;
+            renderCategoryButtons();
+        };
+        container.appendChild(eraserBtn);
+
+        Object.entries(CATEGORIES).forEach(([key, cat]) => {
+            const count = Object.values(neighborhoods).filter(v => v === key).length;
+            const btn = document.createElement('button');
+            btn.className = `category-btn ${activeCategory === key ? 'active' : ''}`;
+            btn.dataset.cat = key;
+            btn.style.color = cat.color;
+            btn.innerHTML = `
+                <span class="category-dot" style="background:${cat.color}"></span>
+                ${cat.label}
+                <span class="category-count">${count}</span>
+            `;
+            btn.onclick = () => {
+                activeCategory = key;
+                renderCategoryButtons();
+            };
+            container.appendChild(btn);
+        });
+    }
+
+    // ── Neighborhood List ──
+    function renderNeighborhoodList(filter = '') {
+        const container = document.getElementById('neighborhood-list');
+        container.innerHTML = '';
+
+        const sorted = Object.keys(neighborhoods).sort();
+        const filtered = filter
+            ? sorted.filter(n => n.toLowerCase().includes(filter.toLowerCase()))
+            : sorted;
+
+        filtered.forEach(name => {
+            const cat = neighborhoods[name];
+            const color = cat ? CATEGORIES[cat]?.color || '#555' : '#555';
+            const community = geoData?.features.find(f => f.properties.name === name)?.properties.community || '';
+
+            const item = document.createElement('div');
+            item.className = 'hood-item';
+            item.innerHTML = `
+                <span class="hood-dot" style="background:${cat ? color : 'transparent'}; border-color:${color}"></span>
+                ${name}
+                <span class="hood-community">${community}</span>
+            `;
+            item.onclick = () => {
+                // Fly to neighborhood
+                if (neighborhoodLayers[name]) {
+                    const bounds = neighborhoodLayers[name].getBounds();
+                    map.flyToBounds(bounds, { padding: [50, 50], duration: 0.5 });
+                }
+                onNeighborhoodClick(name);
+            };
+            container.appendChild(item);
+        });
+    }
+
+    // ── Stats ──
+    function updateStats() {
+        const marked = Object.values(neighborhoods).filter(v => v !== null).length;
+        const total = Object.keys(neighborhoods).length;
+        const pct = total > 0 ? Math.round((marked / total) * 100) : 0;
+
+        document.getElementById('stat-visited').textContent = marked;
+        document.getElementById('stat-pct').textContent = pct + '%';
+        document.getElementById('stat-total').textContent = total;
+
+        // Update category counts in buttons
+        Object.entries(CATEGORIES).forEach(([key, cat]) => {
+            const countEl = document.querySelector(`.category-btn[data-cat="${key}"] .category-count`);
+            if (countEl) {
+                countEl.textContent = Object.values(neighborhoods).filter(v => v === key).length;
+            }
+        });
+    }
+
+    // ── Toggles ──
+    function setupToggles() {
+        document.getElementById('toggle-communities').addEventListener('change', (e) => {
+            communityLayers.forEach(lyr => {
+                if (e.target.checked) {
+                    lyr.addTo(map);
+                } else {
+                    map.removeLayer(lyr);
+                }
+            });
+        });
+
+        document.getElementById('toggle-labels').addEventListener('change', (e) => {
+            labelLayers.forEach(lyr => {
+                if (e.target.checked) {
+                    lyr.addTo(map);
+                } else {
+                    map.removeLayer(lyr);
+                }
+            });
+        });
+    }
+
+    // ── Search ──
+    function setupSearch() {
+        document.getElementById('search').addEventListener('input', (e) => {
+            renderNeighborhoodList(e.target.value);
+        });
+    }
+
+    // ── Persistence (localStorage) ──
+    const STORAGE_KEY = 'mpls-hood-tracker';
+
+    function saveState() {
+        const data = {};
+        Object.entries(neighborhoods).forEach(([name, cat]) => {
+            if (cat) data[name] = cat;
+        });
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    function loadState() {
+        // Check URL params first (shared link)
+        const params = new URLSearchParams(window.location.search);
+        const shared = params.get('s');
+        if (shared) {
+            try {
+                decodeSharedState(shared);
+                showToast('Loaded shared map!');
+                // Clear URL params without reload
+                window.history.replaceState({}, '', window.location.pathname);
+                return;
+            } catch (e) {
+                console.warn('Failed to decode shared state:', e);
+            }
+        }
+
+        // Fall back to localStorage
+        try {
+            const stored = localStorage.getItem(STORAGE_KEY);
+            if (stored) {
+                const data = JSON.parse(stored);
+                Object.entries(data).forEach(([name, cat]) => {
+                    if (name in neighborhoods && cat in CATEGORIES) {
+                        neighborhoods[name] = cat;
+                    }
+                });
+            }
+        } catch (e) {
+            console.warn('Failed to load state:', e);
+        }
+
+        // Refresh all styles
+        Object.keys(neighborhoods).forEach(refreshNeighborhoodStyle);
+    }
+
+    // ── Sharing ──
+    function shareMap() {
+        const encoded = encodeSharedState();
+        if (!encoded) {
+            showToast('Nothing to share yet!');
+            return;
+        }
+        const url = `${window.location.origin}${window.location.pathname}?s=${encoded}`;
+        navigator.clipboard.writeText(url).then(() => {
+            showToast('Link copied to clipboard!');
+        }).catch(() => {
+            // Fallback
+            prompt('Copy this link:', url);
+        });
+    }
+
+    function encodeSharedState() {
+        // Encode as compact string: category_index + neighborhood_indices
+        const catKeys = Object.keys(CATEGORIES);
+        const names = Object.keys(neighborhoods).sort();
+        const nameIndex = {};
+        names.forEach((n, i) => nameIndex[n] = i);
+
+        const parts = [];
+        catKeys.forEach((cat, ci) => {
+            const indices = names
+                .filter(n => neighborhoods[n] === cat)
+                .map(n => nameIndex[n]);
+            if (indices.length > 0) {
+                parts.push(`${ci}:${indices.join(',')}`);
+            }
+        });
+
+        if (parts.length === 0) return null;
+
+        // Base64 encode for shorter URLs
+        return btoa(parts.join(';'));
+    }
+
+    function decodeSharedState(encoded) {
+        const decoded = atob(encoded);
+        const catKeys = Object.keys(CATEGORIES);
+        const names = Object.keys(neighborhoods).sort();
+
+        decoded.split(';').forEach(part => {
+            const [catIdx, indicesStr] = part.split(':');
+            const cat = catKeys[parseInt(catIdx)];
+            if (!cat) return;
+            indicesStr.split(',').forEach(idx => {
+                const name = names[parseInt(idx)];
+                if (name) neighborhoods[name] = cat;
+            });
+        });
+
+        Object.keys(neighborhoods).forEach(refreshNeighborhoodStyle);
+    }
+
+    // ── Clear All ──
+    function clearAll() {
+        if (!confirm('Clear all selections?')) return;
+        Object.keys(neighborhoods).forEach(name => {
+            neighborhoods[name] = null;
+            refreshNeighborhoodStyle(name);
+        });
+        updateStats();
+        renderNeighborhoodList();
+        saveState();
+    }
+
+    // ── Toast ──
+    function showToast(msg) {
+        const toast = document.getElementById('toast');
+        toast.textContent = msg;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+    </script>
+</body>
+</html>
