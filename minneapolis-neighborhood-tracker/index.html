@@ -762,20 +762,6 @@
 
             container.appendChild(btn);
         });
-                };
-                input.addEventListener('blur', finish);
-                input.addEventListener('keydown', (ev) => {
-                    if (ev.key === 'Enter') input.blur();
-                    if (ev.key === 'Escape') { input.value = cat.label; input.blur(); }
-                });
-
-                labelSpan.replaceWith(input);
-                input.focus();
-                input.select();
-            });
-
-            container.appendChild(btn);
-        });
     }
 
     // ── Neighborhood List ──
