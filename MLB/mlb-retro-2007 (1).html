@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1000">
+<title>MLB.com Retro: scores the way they used to look</title>
+<style>
+  /* ================= 2007-era page chrome ================= */
+  html { background:#e4e4e4; }
+  body {
+    margin:0; padding:8px 0 20px 0;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size:11px; color:#333;
+  }
+  #page { width:984px; margin:0 auto; background:#fff; border:1px solid #999; }
+  a { color:#1b5cab; text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  img { border:0; }
+
+  /* top utility strip: white, hairline bottom, team selector at right */
+  #utility {
+    background:#fff; border-bottom:1px solid #ccc;
+    padding:3px 8px; font-size:10px; color:#666;
+    display:flex; align-items:center; gap:10px;
+  }
+  #utility .spacer { flex:1; }
+  #utility select {
+    font-size:10px; font-family:Verdana; border:1px solid #999;
+    background:#f4f4f4; max-width:220px;
+  }
+
+  /* masthead: deep MLB navy, logo block + italic wordmark */
+  #masthead {
+    background:#041e42; background:linear-gradient(#0b316e,#041e42 75%);
+    padding:8px 12px; display:flex; align-items:center; gap:12px;
+  }
+  #mlblogo {
+    height:34px; width:auto; display:block;
+    filter:drop-shadow(0 1px 1px rgba(0,0,0,.5));
+  }
+  #wordmark {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:30px; font-weight:bold; font-style:italic;
+    color:#fff; letter-spacing:-2px; line-height:1;
+  }
+  #wordmark .dotcom { font-size:20px; letter-spacing:-1px; color:#e9eef7; }
+  #tagline {
+    color:#8fa9d4; font-size:9px; text-transform:uppercase;
+    letter-spacing:1px; margin-top:4px;
+  }
+
+  /* main nav: single row of bold white links on blue gradient, pipe rules */
+  #nav {
+    background:#1455a4; background:linear-gradient(#2a6cc0,#11498f);
+    border-top:1px solid #4d86cf; border-bottom:1px solid #042b5e;
+    padding:4px 8px; white-space:nowrap;
+  }
+  #nav a {
+    color:#fff; font-weight:bold; font-size:11px; font-family:Arial;
+    padding:0 8px; border-right:1px solid #5b8cc7;
+  }
+  #nav a:last-child { border-right:none; }
+  /* thin red keyline under nav, very MLB */
+  #redline { height:3px; background:#bf0d3e; border-bottom:1px solid #8c0a2e; }
+
+  /* 30-logo team strip */
+  #teamstrip {
+    background:#f2f4f7; border-bottom:1px solid #ccc;
+    padding:3px 8px; text-align:center;
+  }
+  #teamstrip img { width:18px; height:18px; vertical-align:middle; margin:0 2px; opacity:.92; }
+  #teamstrip img:hover { opacity:1; }
+
+  /* ================= columns ================= */
+  #cols { display:flex; align-items:stretch; }
+
+  /* ---- left rail scoreboard ---- */
+  #col-scores {
+    width:152px; flex:none; background:#fff;
+    border-right:1px solid #ccc; padding:6px 7px 12px 7px;
+  }
+  .railhead {
+    background:linear-gradient(#eef1f5,#d7dde6);
+    border:1px solid #b9c2cf; border-bottom:2px solid #041e42;
+    font-family:Arial; font-weight:bold; font-size:10px; color:#041e42;
+    text-transform:uppercase; letter-spacing:.5px; padding:2px 5px;
+    margin-bottom:3px;
+  }
+  #sb-datenav { font-size:9px; color:#555; margin:2px 0 1px 0; }
+  #sb-datenav a {
+    font-weight:bold; border:1px solid #aaa; background:#f4f4f4;
+    padding:0 4px; color:#1b5cab;
+  }
+  .updated { display:block; color:#999; font-size:8px; margin:1px 0 4px 0; }
+  .game { border-bottom:1px solid #e2e2e2; padding:2px 0; }
+  .game table { width:100%; border-collapse:collapse; }
+  .game td { padding:0; font-size:10px; line-height:14px; white-space:nowrap; font-family:Verdana; }
+  .game td.st {
+    width:34px; font-size:8px; font-weight:bold; color:#777;
+    vertical-align:middle; letter-spacing:.2px;
+  }
+  .game td.st.live { color:#bf0d3e; }
+  .game td.abbr { width:32px; color:#222; }
+  .game td.runs { width:15px; text-align:right; font-family:Arial; padding-right:6px; }
+  .game td.lnk { text-align:right; font-size:9px; }
+  .game tr.winner td.abbr, .game tr.winner td.runs { font-weight:bold; color:#000; }
+  #sb-empty { color:#666; font-size:10px; }
+  #fullsb { display:block; text-align:right; font-size:9px; margin-top:4px; font-weight:bold; }
+
+  /* ---- center column ---- */
+  #col-main { width:496px; flex:none; padding:8px 10px; border-right:1px solid #ccc; }
+
+  /* hero story, 2007 style: bold Arial headline, photo, gray caption, dek */
+  #lead { margin-bottom:10px; }
+  #lead h1 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:18px; font-weight:bold; line-height:1.15; margin:2px 0 5px 0;
+  }
+  #lead h1 a { color:#041e42; }
+  #lead h1 a:hover { color:#bf0d3e; text-decoration:none; }
+  #lead .byline { color:#999; font-size:9px; font-style:italic; margin-bottom:4px; }
+  #lead p { margin:5px 0; line-height:1.45; color:#333; }
+  #lead .storylinks { font-size:10px; font-weight:bold; }
+  .lead-realphoto img { width:100%; display:block; border:1px solid #999; }
+  .lead-realphoto .photocap {
+    color:#777; font-size:9px; line-height:1.4;
+    padding:2px 1px 0 1px; border-bottom:1px solid #ddd; margin-bottom:4px;
+  }
+  .lead-fallback { display:flex; gap:10px; }
+  #lead-photo {
+    width:160px; height:120px; flex:none;
+    background:#041e42; background:linear-gradient(#0b316e,#041e42);
+    border:1px solid #777; display:flex; align-items:center; justify-content:center;
+  }
+  #lead-photo img { width:104px; height:104px; }
+
+  /* secondary photo teasers under the hero */
+  #teasers { display:flex; gap:10px; margin-bottom:10px; }
+  .teaser { width:50%; }
+  .teaser img { width:100%; display:block; border:1px solid #999; }
+  .teaser a.head {
+    display:block; font-family:Arial; font-weight:bold; font-size:11px;
+    color:#1b5cab; margin-top:2px; line-height:1.25;
+  }
+
+  /* headline list with little arrow bullets */
+  .modhead {
+    background:linear-gradient(#eef1f5,#d7dde6);
+    border:1px solid #b9c2cf; border-bottom:2px solid #bf0d3e;
+    font-family:Arial; font-weight:bold; font-size:11px; color:#041e42;
+    text-transform:uppercase; letter-spacing:.5px;
+    padding:2px 6px; margin:0 0 5px 0;
+  }
+  ul.headlines { list-style:none; margin:0 0 10px 0; padding:0; }
+  ul.headlines li {
+    padding:3px 0 3px 11px; border-bottom:1px dotted #ccc; position:relative;
+    line-height:1.3;
+  }
+  ul.headlines li:before {
+    content:"\25B8"; color:#bf0d3e; position:absolute; left:0; top:3px; font-size:9px;
+  }
+  ul.headlines a { font-weight:bold; font-family:Arial; }
+  ul.headlines .meta { color:#999; font-size:9px; font-weight:normal; }
+
+  /* ---- right rail ---- */
+  #col-side { flex:1; padding:8px 8px; background:#fbfbfb; }
+  table.standings { width:100%; border-collapse:collapse; margin-bottom:5px; background:#fff; }
+  table.standings caption {
+    text-align:left; background:linear-gradient(#eef1f5,#d7dde6);
+    border:1px solid #b9c2cf; border-bottom:none;
+    font-family:Arial; font-weight:bold; font-size:9px; color:#041e42;
+    padding:1px 5px; text-transform:uppercase; letter-spacing:.4px;
+  }
+  table.standings th, table.standings td {
+    border:1px solid #d5d5d5; padding:1px 4px; font-size:9px; line-height:12px;
+  }
+  table.standings th { background:#ebebeb; color:#555; text-align:right; font-family:Verdana; }
+  table.standings th:first-child, table.standings td:first-child { text-align:left; }
+  table.standings td { text-align:right; font-family:Arial; }
+  table.standings tr.leader td { font-weight:bold; }
+
+  /* footer: the long gray legalese */
+  #footer {
+    clear:both; border-top:3px solid #041e42; background:#ececec;
+    padding:8px 12px; color:#888; font-size:9px; line-height:1.6; text-align:center;
+  }
+  #footer a { color:#666; }
+  #footer .rule { border-top:1px solid #ccc; margin:5px 30px; }
+  .err { color:#a00; padding:6px 2px; font-size:10px; }
+</style>
+</head>
+<body>
+<div id="page">
+
+  <div id="utility">
+    <b style="color:#041e42">MLB.com Retro</b>
+    <a href="https://www.mlb.com/tickets">Tickets</a>
+    <a href="https://www.mlbshop.com">Shop</a>
+    <a href="https://www.mlb.com/fantasy">Fantasy</a>
+    <a href="https://www.mlb.com/es">En Espa&ntilde;ol</a>
+    <span class="spacer"></span>
+    <select id="teamselect">
+      <option value="">Click here for all 30 team sites</option>
+    </select>
+  </div>
+
+  <div id="masthead">
+    <img id="mlblogo" src="https://www.mlbstatic.com/team-logos/league-on-dark/1.svg" alt="MLB">
+    <div>
+      <div id="wordmark">MLB<span class="dotcom">.com</span></div>
+      <div id="tagline">The (Unofficial, Nostalgic) Site of Major League Baseball</div>
+    </div>
+  </div>
+
+  <div id="nav">
+    <a href="https://www.mlb.com/scores">Scoreboard</a><a
+       href="https://www.mlb.com/schedule">Schedule</a><a
+       href="https://www.mlb.com/stats">Stats</a><a
+       href="https://www.mlb.com/standings">Standings</a><a
+       href="https://www.mlb.com/players">Players</a><a
+       href="https://www.mlb.com/team">Teams</a><a
+       href="https://www.mlb.com/news">News</a><a
+       href="https://www.mlb.com/video">Multimedia</a><a
+       href="https://www.mlb.com/fantasy">Fantasy</a><a
+       href="https://www.mlb.com/live-stream-games">MLB.TV</a><a
+       href="https://www.mlb.com/apps/gameday">Gameday</a>
+  </div>
+  <div id="redline"></div>
+  <div id="teamstrip"></div>
+
+  <div id="cols">
+
+    <div id="col-scores">
+      <div class="railhead">Scoreboard</div>
+      <div id="sb-datenav">
+        <a href="#" id="prevday" title="Previous day">&laquo;</a>
+        <span id="sb-date"></span>
+        <a href="#" id="nextday" title="Next day">&raquo;</a>
+      </div>
+      <span class="updated" id="updated"></span>
+      <div id="scoreboard"><span id="sb-empty">Loading scores&hellip;</span></div>
+      <a id="fullsb" href="https://www.mlb.com/scores" target="_blank">Full Scoreboard &raquo;</a>
+    </div>
+
+    <div id="col-main">
+      <div id="lead"><p style="color:#888">Waiting for results&hellip;</p></div>
+      <div id="teasers"></div>
+      <div class="modhead" id="wraps-head">MLB Headlines</div>
+      <ul class="headlines" id="wraps"><li><span class="meta">Loading&hellip;</span></li></ul>
+      <div class="modhead" id="today-head" style="display:none">Today's Games</div>
+      <ul class="headlines" id="today-list" style="display:none"></ul>
+    </div>
+
+    <div id="col-side">
+      <div class="modhead" style="margin-bottom:5px;">Standings</div>
+      <div id="standings">Loading&hellip;</div>
+    </div>
+  </div>
+
+  <div id="footer">
+    A fan-made recreation of the circa-2007 MLB.com homepage, for personal nostalgia.
+    Live data from the public <a href="https://statsapi.mlb.com/api/v1/schedule?sportId=1">MLB Stats API</a>;
+    logos and photos served by MLB. Not affiliated with or endorsed by MLB Advanced Media, L.P.
+    <div class="rule"></div>
+    Scores auto-refresh every 60 seconds while games are live, every 5 minutes otherwise.
+    Wrap, Video, Gameday and Preview links open the modern MLB.com.
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var FAVORITE_TEAM_ID = 147; // Yankees lead off the rail
+
+  var ABBR = {108:"LAA",109:"ARI",110:"BAL",111:"BOS",112:"CHC",113:"CIN",114:"CLE",
+    115:"COL",116:"DET",117:"HOU",118:"KC",119:"LAD",120:"WSH",121:"NYM",133:"ATH",
+    134:"PIT",135:"SD",136:"SEA",137:"SF",138:"STL",139:"TB",140:"TEX",141:"TOR",
+    142:"MIN",143:"PHI",144:"ATL",145:"CWS",146:"MIA",147:"NYY",158:"MIL"};
+  var SLUG = {108:"angels",109:"dbacks",110:"orioles",111:"redsox",112:"cubs",113:"reds",
+    114:"guardians",115:"rockies",116:"tigers",117:"astros",118:"royals",119:"dodgers",
+    120:"nationals",121:"mets",133:"athletics",134:"pirates",135:"padres",136:"mariners",
+    137:"giants",138:"cardinals",139:"rays",140:"rangers",141:"bluejays",142:"twins",
+    143:"phillies",144:"braves",145:"whitesox",146:"marlins",147:"yankees",158:"brewers"};
+  var NAME = {108:"Angels",109:"D-backs",110:"Orioles",111:"Red Sox",112:"Cubs",113:"Reds",
+    114:"Guardians",115:"Rockies",116:"Tigers",117:"Astros",118:"Royals",119:"Dodgers",
+    120:"Nationals",121:"Mets",133:"Athletics",134:"Pirates",135:"Padres",136:"Mariners",
+    137:"Giants",138:"Cardinals",139:"Rays",140:"Rangers",141:"Blue Jays",142:"Twins",
+    143:"Phillies",144:"Braves",145:"White Sox",146:"Marlins",147:"Yankees",158:"Brewers"};
+  var DIV_NAMES = {201:"AL East",202:"AL Central",200:"AL West",
+                   204:"NL East",205:"NL Central",203:"NL West"};
+  var DIV_ORDER = [201,202,200,204,205,203];
+
+  var viewDate = new Date();
+  var timer = null;
+  var ydCache = {};
+
+  /* ---------- chrome: team strip + selector ---------- */
+  (function buildTeamChrome(){
+    var ids = Object.keys(SLUG).map(Number).sort(function(a,b){
+      return NAME[a] < NAME[b] ? -1 : 1;
+    });
+    var strip = "", sel = document.getElementById("teamselect");
+    ids.forEach(function(id){
+      strip += '<a href="https://www.mlb.com/'+SLUG[id]+'" target="_blank" title="'+NAME[id]+'">'
+             + '<img src="https://www.mlbstatic.com/team-logos/'+id+'.svg" alt="'+NAME[id]+'"></a>';
+      var o = document.createElement("option");
+      o.value = "https://www.mlb.com/" + SLUG[id];
+      o.textContent = NAME[id];
+      sel.appendChild(o);
+    });
+    document.getElementById("teamstrip").innerHTML = strip;
+    sel.onchange = function(){ if (this.value) window.open(this.value, "_blank"); this.selectedIndex = 0; };
+  })();
+
+  /* ---------- helpers ---------- */
+  function ymd(d){
+    var m = (d.getMonth()+1), day = d.getDate();
+    return d.getFullYear() + "-" + (m<10?"0":"")+m + "-" + (day<10?"0":"")+day;
+  }
+  function prettyDate(d){ return d.toLocaleDateString([], {month:"short", day:"numeric"}); }
+  function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
+  function abbr(t){ return (t.team && t.team.abbreviation) || ABBR[t.team.id] || "???"; }
+  function nick(t){ return (t.team && t.team.teamName) || NAME[t.team.id] || t.team.name; }
+  function gdUrl(g){ return "https://www.mlb.com/gameday/" + g.gamePk; }
+
+  function verbFor(margin, shutout){
+    if (shutout) return "blank";
+    if (margin <= 1) return "edge";
+    if (margin === 2) return "top";
+    if (margin <= 4) return "beat";
+    if (margin <= 7) return "pound";
+    return "rout";
+  }
+
+  function compactStatus(g){
+    var st = g.status.abstractGameState;
+    var det = g.status.detailedState || "";
+    if (/Postponed/i.test(det)) return {txt:"PPD", live:false};
+    if (/Suspended/i.test(det)) return {txt:"SUSP", live:false};
+    if (st === "Preview"){
+      var d = new Date(g.gameDate);
+      var h = d.getHours(), m = d.getMinutes();
+      var ap = h >= 12 ? "P" : "A"; h = h % 12 || 12;
+      return {txt: h + ":" + (m<10?"0":"") + m + ap, live:false};
+    }
+    if (st === "Live"){
+      var ls = g.linescore || {};
+      var inn = ls.currentInning || "";
+      var state = (ls.inningState || "L").charAt(0).toUpperCase();
+      return {txt: inn ? (state + inn) : "LIVE", live:true};
+    }
+    var fin = "F";
+    if (g.linescore && g.linescore.currentInning > 9) fin += "/" + g.linescore.currentInning;
+    return {txt:fin, live:false};
+  }
+
+  /* era-correct link labels: Preview / Gameday / Wrap | Video */
+  function gameLinks(g){
+    var st = g.status.abstractGameState;
+    if (st === "Final") return {top:"Wrap", topUrl:gdUrl(g), bot:"Video", botUrl:gdUrl(g)+"/video"};
+    if (st === "Live")  return {top:"Gameday", topUrl:gdUrl(g), bot:"Video", botUrl:gdUrl(g)+"/video"};
+    return {top:"Preview", topUrl:gdUrl(g), bot:"", botUrl:""};
+  }
+
+  /* ---------- scoreboard rail ---------- */
+  function renderScoreboard(games){
+    var rail = document.getElementById("scoreboard");
+    if (!games.length){
+      rail.innerHTML = '<span id="sb-empty">No games scheduled. (Even in 2007 there were off days.)</span>';
+      return;
+    }
+    games = games.slice().sort(function(a,b){
+      var fa = (a.teams.away.team.id===FAVORITE_TEAM_ID || a.teams.home.team.id===FAVORITE_TEAM_ID) ? 0:1;
+      var fb = (b.teams.away.team.id===FAVORITE_TEAM_ID || b.teams.home.team.id===FAVORITE_TEAM_ID) ? 0:1;
+      return fa - fb;
+    });
+    var html = "";
+    games.forEach(function(g){
+      var s = compactStatus(g);
+      var L = gameLinks(g);
+      var isFinal = g.status.abstractGameState === "Final";
+      var showRuns = g.status.abstractGameState !== "Preview";
+      function cells(t){
+        var runs = showRuns && t.score !== undefined ? t.score : "&nbsp;";
+        return "<td class='abbr'>"+esc(abbr(t))+"</td><td class='runs'>"+runs+"</td>";
+      }
+      var awayWin = isFinal && g.teams.away.isWinner ? " class='winner'" : "";
+      var homeWin = isFinal && g.teams.home.isWinner ? " class='winner'" : "";
+      html += '<div class="game"><table>'
+            + "<tr"+awayWin+"><td class='st"+(s.live?" live":"")+"' rowspan='2'>"+esc(s.txt)+"</td>"
+            +   cells(g.teams.away)
+            +   "<td class='lnk'><a href='"+L.topUrl+"' target='_blank'>"+L.top+"</a></td></tr>"
+            + "<tr"+homeWin+">"+cells(g.teams.home)
+            +   "<td class='lnk'>"+(L.bot ? "<a href='"+L.botUrl+"' target='_blank'>"+L.bot+"</a>" : "&nbsp;")+"</td></tr>"
+            + "</table></div>";
+    });
+    rail.innerHTML = html;
+  }
+
+  /* ---------- stories: hero photo + teasers + headlines ---------- */
+  function finalsOf(games){
+    return games.filter(function(g){
+      return g.status.abstractGameState === "Final" && g.teams.away.score !== undefined;
+    });
+  }
+  function buildStories(finals){
+    return finals.map(function(g){
+      var a = g.teams.away, h = g.teams.home;
+      var w = a.isWinner ? a : h, l = a.isWinner ? h : a;
+      var margin = w.score - l.score;
+      var extras = g.linescore && g.linescore.currentInning > 9;
+      var imp = 0;
+      if (extras) imp += 3;
+      if (margin === 1) imp += 2; else if (margin === 2) imp += 1;
+      if (l.score === 0) imp += 1;
+      if (w.score + l.score >= 15) imp += 1;
+      if (a.team.id === FAVORITE_TEAM_ID || h.team.id === FAVORITE_TEAM_ID) imp += 2;
+      return {
+        g:g, w:w, l:l, margin:margin, imp:imp, extras:extras,
+        headline: nick(w) + " " + verbFor(margin, l.score === 0) + " " + nick(l)
+                  + ", " + w.score + "-" + l.score
+      };
+    }).sort(function(a,b){ return b.imp - a.imp; });
+  }
+  function storyBody(s){
+    var venue = s.g.venue ? s.g.venue.name : "";
+    var inn = s.extras ? " in " + s.g.linescore.currentInning + " innings" : "";
+    return "The " + esc(nick(s.w)) + " took down the " + esc(nick(s.l)) + " "
+         + s.w.score + "-" + s.l.score + inn + (venue ? " at " + esc(venue) : "") + ".";
+  }
+  function storyFooter(s){
+    return '<div class="storylinks"><a href="'+gdUrl(s.g)+'" target="_blank">Wrap</a> | '
+         + '<a href="'+gdUrl(s.g)+'/video" target="_blank">Video</a> | '
+         + '<a href="'+gdUrl(s.g)+'" target="_blank">Gameday</a></div>';
+  }
+  function favoriteFirst(games){
+    return games.slice().sort(function(a,b){
+      var fa = (a.teams.away.team.id===FAVORITE_TEAM_ID || a.teams.home.team.id===FAVORITE_TEAM_ID) ? 0:1;
+      var fb = (b.teams.away.team.id===FAVORITE_TEAM_ID || b.teams.home.team.id===FAVORITE_TEAM_ID) ? 0:1;
+      return fa - fb;
+    });
+  }
+
+  /* renders hero + teasers + wraps list from a set of finals */
+  function renderPackage(finals, label, maxTeasers){
+    var stories = buildStories(finals);
+    document.getElementById("wraps-head").textContent = label;
+    document.getElementById("lead").innerHTML =
+        '<div class="lead-fallback"><div id="lead-photo">'
+      + '<img src="https://www.mlbstatic.com/team-logos/' + stories[0].w.team.id + '.svg" alt=""></div>'
+      + "<div><h1><a href='"+gdUrl(stories[0].g)+"' target='_blank'>"+esc(stories[0].headline)+"</a></h1>"
+      + '<div class="byline">MLB.com Retro Wrap</div>'
+      + "<p>" + storyBody(stories[0]) + "</p>" + storyFooter(stories[0]) + "</div></div>";
+    document.getElementById("teasers").innerHTML = "";
+    document.getElementById("wraps").innerHTML = stories.slice(1).map(function(s){
+        return "<li><a href='"+gdUrl(s.g)+"' target='_blank'>"+esc(s.headline)+"</a> "
+             + "<span class='meta'>&nbsp;<a href='"+gdUrl(s.g)+"/video' target='_blank'>video</a></span></li>";
+      }).join("") || "<li><span class='meta'>One game, one story.</span></li>";
+    hydratePhotos(stories, maxTeasers);
+  }
+
+  /* "Today's Games" preview list for dates with no finals yet */
+  function renderTodayList(games){
+    var head = document.getElementById("today-head");
+    var list = document.getElementById("today-list");
+    if (!games.length){ head.style.display = "none"; list.style.display = "none"; return; }
+    list.innerHTML = favoriteFirst(games).map(function(g){
+      var s = compactStatus(g);
+      var L = gameLinks(g);
+      return "<li><a href='"+gdUrl(g)+"' target='_blank'>"
+           + esc(nick(g.teams.away)) + " at " + esc(nick(g.teams.home)) + "</a> "
+           + "<span class='meta'>" + esc(s.txt) + " &middot; "
+           + "<a href='"+L.topUrl+"' target='_blank'>"+L.top+"</a></span></li>";
+    }).join("");
+    head.style.display = "block"; list.style.display = "block";
+  }
+
+  function renderStories(games){
+    var todayHead = document.getElementById("today-head");
+    var todayList = document.getElementById("today-list");
+    var finals = finalsOf(games);
+
+    if (finals.length){
+      todayHead.style.display = "none"; todayList.style.display = "none";
+      renderPackage(finals, "MLB Headlines", 2);
+      return;
+    }
+
+    // no finals on the selected date: list today's slate, recap the previous day
+    renderTodayList(games);
+    var y = new Date(viewDate); y.setDate(y.getDate() - 1);
+    var ystr = ymd(y);
+    var isActuallyToday = ymd(viewDate) === ymd(new Date());
+    var label = isActuallyToday ? "Last Night's Wraps" : "Previous Day's Wraps";
+
+    function done(yGames){
+      var yFinals = finalsOf(yGames);
+      if (yFinals.length){
+        renderPackage(yFinals, label, 1);
+        appendPreviewTeaser(games);
+      } else {
+        document.getElementById("wraps-head").textContent = label;
+        document.getElementById("lead").innerHTML =
+          "<p>No recent finals to show &mdash; the front page fills in after tonight's games.</p>";
+        document.getElementById("teasers").innerHTML = "";
+        document.getElementById("wraps").innerHTML =
+          "<li><span class='meta'>Wraps will appear here.</span></li>";
+        appendPreviewTeaser(games);
+      }
+    }
+
+    if (ydCache[ystr]){ done(ydCache[ystr]); return; }
+    fetch("https://statsapi.mlb.com/api/v1/schedule?sportId=1&date=" + ystr + "&hydrate=team,linescore")
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        var yGames = (data.dates && data.dates[0] && data.dates[0].games) || [];
+        ydCache[ystr] = yGames;
+        done(yGames);
+      })
+      .catch(function(){ done([]); });
+  }
+
+  /* ---------- real photos via /game/{pk}/content ---------- */
+  function bestCut(cuts, targetW){
+    if (!cuts) return null;
+    var arr = Array.isArray(cuts) ? cuts : Object.keys(cuts).map(function(k){ return cuts[k]; });
+    var best = null;
+    arr.forEach(function(c){
+      if (c && c.src && c.width >= 200 && c.width <= 1400){
+        if (!best || Math.abs(c.width - targetW) < Math.abs(best.width - targetW)) best = c;
+      }
+    });
+    return best;
+  }
+  function extractContent(data, targetW, previewFirst){
+    if (previewFirst){
+      try {
+        var p = data.editorial.preview.mlb;
+        var pcut = bestCut(p.photo && p.photo.cuts, targetW);
+        if (pcut) return {
+          src: pcut.src, headline: p.headline,
+          caption: (p.photo && (p.photo.caption || p.photo.altText)) || p.blurb || ""
+        };
+      } catch(e){}
+    }
+    try {
+      var r = data.editorial.recap.mlb;
+      var cut = bestCut(r.photo && r.photo.cuts, targetW);
+      if (cut) return {
+        src: cut.src, headline: r.headline,
+        caption: (r.photo && (r.photo.caption || r.photo.altText)) || r.blurb || ""
+      };
+    } catch(e){}
+    try {
+      var items = data.highlights.highlights.items;
+      for (var i=0; i<items.length; i++){
+        var cut2 = bestCut(items[i].image && items[i].image.cuts, targetW);
+        if (cut2) return {
+          src: cut2.src,
+          headline: items[i].headline || items[i].title,
+          caption: items[i].blurb || items[i].description || ""
+        };
+      }
+    } catch(e){}
+    return null;
+  }
+
+  /* tonight's marquee matchup as a captioned preview teaser */
+  function appendPreviewTeaser(todayGames){
+    var pending = todayGames.filter(function(g){
+      return g.status.abstractGameState !== "Final";
+    });
+    if (!pending.length) return;
+    var g = favoriteFirst(pending)[0];
+    fetch("https://statsapi.mlb.com/api/v1/game/" + g.gamePk + "/content")
+      .then(function(r){ return r.json(); })
+      .then(function(d){
+        var c = extractContent(d, 320, true);
+        if (!c) return;
+        var div = document.createElement("div");
+        div.className = "teaser";
+        div.innerHTML =
+            '<a href="'+gdUrl(g)+'" target="_blank"><img src="'+c.src+'" alt=""></a>'
+          + '<a class="head" href="'+gdUrl(g)+'" target="_blank">Tonight: '
+          + esc(c.headline || (nick(g.teams.away) + " at " + nick(g.teams.home))) + "</a>";
+        document.getElementById("teasers").appendChild(div);
+      })
+      .catch(function(){});
+  }
+
+  function hydratePhotos(stories, maxTeasers){
+    var candidates = stories.slice(0, 4);
+    Promise.all(candidates.map(function(s){
+      return fetch("https://statsapi.mlb.com/api/v1/game/" + s.g.gamePk + "/content")
+        .then(function(r){ return r.json(); })
+        .then(function(d){ return {s:s, hero:extractContent(d, 640), thumb:extractContent(d, 320)}; })
+        .catch(function(){ return {s:s, hero:null, thumb:null}; });
+    })).then(function(results){
+      var withPhoto = results.filter(function(r){ return r.hero; });
+      if (!withPhoto.length) return; // keep logo fallback
+
+      var heroR = withPhoto[0];
+      var s = heroR.s, c = heroR.hero;
+      document.getElementById("lead").innerHTML =
+          "<h1><a href='"+gdUrl(s.g)+"' target='_blank'>"+esc(c.headline || s.headline)+"</a></h1>"
+        + '<div class="byline">MLB.com Wrap</div>'
+        + '<div class="lead-realphoto">'
+        +   '<a href="'+gdUrl(s.g)+'/video" target="_blank"><img src="'+c.src+'" alt=""></a>'
+        +   '<div class="photocap">'+esc(c.caption || storyBody(s))+'</div>'
+        + "</div>"
+        + "<p>" + storyBody(s) + "</p>" + storyFooter(s);
+
+      var teaserHtml = withPhoto.slice(1, 1 + maxTeasers).map(function(r){
+        var tc = r.thumb || r.hero;
+        return '<div class="teaser">'
+             + '<a href="'+gdUrl(r.s.g)+'" target="_blank"><img src="'+tc.src+'" alt=""></a>'
+             + '<a class="head" href="'+gdUrl(r.s.g)+'" target="_blank">'
+             + esc(tc.headline || r.s.headline) + "</a></div>";
+      }).join("");
+      // prepend recap teasers; a preview teaser may already occupy a slot
+      var box = document.getElementById("teasers");
+      box.innerHTML = teaserHtml + box.innerHTML;
+    });
+  }
+
+  /* ---------- standings ---------- */
+  function renderStandings(data){
+    var box = document.getElementById("standings");
+    var byDiv = {};
+    (data.records || []).forEach(function(r){ byDiv[r.division.id] = r; });
+    var html = "";
+    DIV_ORDER.forEach(function(id){
+      var rec = byDiv[id]; if (!rec) return;
+      html += "<table class='standings'><caption>"+DIV_NAMES[id]+"</caption>"
+            + "<tr><th>Team</th><th>W</th><th>L</th><th>PCT</th><th>GB</th></tr>";
+      rec.teamRecords.forEach(function(t,i){
+        html += "<tr"+(i===0?" class='leader'":"")+"><td>"
+              + (ABBR[t.team.id]||esc(t.team.name)) + "</td><td>"+t.wins+"</td><td>"+t.losses
+              + "</td><td>"+t.winningPercentage+"</td><td>"+t.gamesBack+"</td></tr>";
+      });
+      html += "</table>";
+    });
+    box.innerHTML = html || "<span class='meta'>Standings unavailable.</span>";
+  }
+
+  /* ---------- load + refresh ---------- */
+  function load(){
+    var dstr = ymd(viewDate);
+    document.getElementById("sb-date").textContent = " " + prettyDate(viewDate) + " ";
+
+    fetch("https://statsapi.mlb.com/api/v1/schedule?sportId=1&date=" + dstr + "&hydrate=team,linescore")
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        var games = (data.dates && data.dates[0] && data.dates[0].games) || [];
+        renderScoreboard(games);
+        renderStories(games);
+        document.getElementById("updated").textContent =
+          "Updated " + new Date().toLocaleTimeString([], {hour:"numeric",minute:"2-digit"});
+        var anyLive = games.some(function(g){ return g.status.abstractGameState === "Live"; });
+        clearTimeout(timer);
+        timer = setTimeout(load, anyLive ? 60000 : 300000);
+      })
+      .catch(function(){
+        document.getElementById("scoreboard").innerHTML =
+          "<div class='err'>Couldn't reach the MLB Stats API. If you're viewing this in a sandboxed preview, "
+        + "download the file and open it directly in your browser.</div>";
+      });
+
+    fetch("https://statsapi.mlb.com/api/v1/standings?leagueId=103,104&season=" + viewDate.getFullYear())
+      .then(function(r){ return r.json(); })
+      .then(renderStandings)
+      .catch(function(){ document.getElementById("standings").textContent = "Standings unavailable."; });
+  }
+
+  document.getElementById("prevday").onclick = function(e){
+    e.preventDefault(); viewDate.setDate(viewDate.getDate()-1); load();
+  };
+  document.getElementById("nextday").onclick = function(e){
+    e.preventDefault(); viewDate.setDate(viewDate.getDate()+1); load();
+  };
+
+  load();
+})();
+</script>
+</body>
+</html>
